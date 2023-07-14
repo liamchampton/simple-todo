@@ -3,7 +3,7 @@
   "displayName": "Simple Todo",
   "description": "A simple, clutter free todo VS Code extension",
   "version": "0.0.1",
-  "publisher": "Liam Hampton",
+  "publisher": "liam-hampton",
   "engines": {
     "vscode": "^1.80.0"
   },
