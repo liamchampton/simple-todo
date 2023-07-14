@@ -40,27 +40,27 @@ export function activate(context: vscode.ExtensionContext) {
 		} else if (command === 'update') {
 			const taskName = await vscode.window.showInputBox({ prompt: 'Enter task name' });
 			if (!taskName) {
-			  return;
+				return;
 			}
-	  
+
 			const description = await vscode.window.showInputBox({ prompt: 'Enter new description (optional)' });
 			const deadline = await vscode.window.showInputBox({ prompt: 'Enter new deadline (DD-MM-YYYY, optional)' });
-	  
+
 			args = [command, taskName];
 			if (description) {
-			  args.push('--description', description);
+				args.push('--description', description);
 			}
 			if (deadline) {
-			  args.push('--deadline', deadline);
+				args.push('--deadline', deadline);
 			}
-		  } else {
+		} else {
 			const input = await vscode.window.showInputBox({ prompt: `Enter ${command} argument` });
 			if (!input) {
-			  return;
+				return;
 			}
-	  
+
 			args = [command, input];
-		  }
+		}
 
 		// Create a new Webview panel
 		if (!panel) {
@@ -80,10 +80,14 @@ export function activate(context: vscode.ExtensionContext) {
 		});
 
 		child.stdout.on('data', (data) => {
-			// Update the Webview panel with the output
-			if (panel) {
-				// panel.webview.html = data.toString();
-				panel.webview.html = `<pre>${data}</pre>`;
+			if (command === 'list') {
+				// Update the Webview panel with the output
+				if (panel) {
+					// panel.webview.html = data.toString();
+					panel.webview.html = `<pre>${data}</pre>`;
+				}
+			} else {
+				vscode.window.showInformationMessage(data.toString());
 			}
 		});
 
